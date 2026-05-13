@@ -9,11 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,700;0,900;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500;1,600&family=Lexend:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --void:    #060a07;
-  --base:    #080e09;
-  --surface: #0b1a0f;
-  --raised:  #0f2218;
-  --elevated:#152e1e;
+  /* We changed these to 85% opacity so the background shines through from behind */
+  --void:    rgba(6, 10, 7, 0.85);
+  --base:    rgba(8, 14, 9, 0.85);
+  --surface: rgba(11, 26, 15, 0.85);
+  --raised:  rgba(15, 34, 24, 0.85);
+  --elevated:rgba(21, 46, 30, 0.85);
+
   --green:      #5dcc88;
   --green-soft: #7dd898;
   --green-mid:  #3d6048;
@@ -39,16 +41,15 @@ body{background:var(--base);color:var(--text-1);font-family:var(--ff-lexend);fon
 /* ── GLOBAL HOMEPAGE BACKGROUND ── */
 .global-bg-wrapper{
   position:fixed;top:0;left:0;width:100%;height:100vh;
-  z-index:100; /* Moves it ON TOP of the solid background colors */
-  pointer-events:none; /* Crucial: Lets your mouse click "through" the image */
+  z-index:-1; /* 👈 This pushes it safely behind everything! */
+  pointer-events:none;
 }
 .global-bg{
   position:absolute;top:0;left:0;width:100%;height:100%;
-  background-image: url('images/homepage-bg.jpg');
+  background-image: url('images/homepage-bg.jpg'); 
   background-size:cover;background-position:center;
   background-attachment:fixed;background-repeat:no-repeat;
-  opacity: 0.50; /* Adjusted slightly so it overlays nicely */
-  mix-blend-mode: screen; /* Helps the colors blend with the dark theme */
+  opacity: 0.6; /* You can crank this way up now since it won't wash out your text! */
 }
 
 /* All page content and nav sits above the fixed bg */
