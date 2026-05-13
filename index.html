@@ -38,15 +38,17 @@ body{background:var(--base);color:var(--text-1);font-family:var(--ff-lexend);fon
 
 /* ── GLOBAL HOMEPAGE BACKGROUND ── */
 .global-bg-wrapper{
-  position:fixed;top:0;left:0;width:100%;height:100vh;z-index:0;
-  pointer-events:none;
+  position:fixed;top:0;left:0;width:100%;height:100vh;
+  z-index:100; /* Moves it ON TOP of the solid background colors */
+  pointer-events:none; /* Crucial: Lets your mouse click "through" the image */
 }
 .global-bg{
   position:absolute;top:0;left:0;width:100%;height:100%;
-  background-image: url('images/homepage-bg.jpg'); /* Verify exact capitalization on GitHub! */
+  background-image: url('images/homepage-bg.jpg');
   background-size:cover;background-position:center;
   background-attachment:fixed;background-repeat:no-repeat;
-  opacity:0.18;
+  opacity: 0.15; /* Adjusted slightly so it overlays nicely */
+  mix-blend-mode: screen; /* Helps the colors blend with the dark theme */
 }
 
 /* All page content and nav sits above the fixed bg */
@@ -419,31 +421,36 @@ footer{
   display:flex;align-items:center;justify-content:center;
 }
 #loader .loader-bg{
-  animation:loader-bg-zoom-out 0.8s ease-in forwards;
+  animation:loader-bg-zoom-out 1.2s ease-in-out forwards; /* Slowed down */
   position:fixed;width:100%;height:100%;
-  background-image: url('images/loader-bg.jpg'); /* Verify exact capitalization on GitHub! */
+  background-image: url('images/loader-bg.jpg');
   background-color:#0d2925;
   background-size:cover;background-position:center;
   background-attachment:fixed;background-repeat:no-repeat;
   z-index:1;
 }
 #loader img.loader-zh{
-  animation:loader-zoom-in-rotate 1s ease-in forwards;
+  /* Changed from 1s ease-in to 1.5s with a buttery smooth physics curve */
+  animation:loader-zoom-in-rotate 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   width:18.3%;height:auto;position:relative;z-index:2;
 }
 @media(max-width:992px){#loader img.loader-zh{width:25%;}}
 @media(max-width:768px){#loader img.loader-zh{width:35%;}}
 @media(max-width:450px){#loader img.loader-zh{width:45%;}}
+
 #loader.hide-loader{
-  transition:opacity 1s ease 0.8s;opacity:0;pointer-events:none;
+  transition:opacity 1.2s ease 1s; /* Lengthened the fade out and delay */
+  opacity:0;pointer-events:none;
 }
 #loader.hide-loader .loader-bg{
-  animation:loader-bg-zoom-in 0.8s ease-out forwards;
+  animation:loader-bg-zoom-in 1s ease-out forwards;
 }
+
 @keyframes loader-zoom-in-rotate{
-  0%{transform:scale(0) rotate(38deg);}
-  100%{transform:scale(1) rotate(0deg);}
+  0%{transform:scale(0) rotate(45deg); opacity: 0;}
+  100%{transform:scale(1) rotate(0deg); opacity: 1;}
 }
+
 @keyframes loader-zoom-out{
   0%{transform:scale(1);}
   100%{transform:scale(0);}
@@ -1171,20 +1178,18 @@ footer{
 </div>
 
 <script>
-// ── LOADER: exact match to zima.health implementation ──
+// ── LOADER JAVASCRIPT ──
 (function(){
   const loader = document.getElementById('loader');
-  // Match live site: zoom-in-rotate plays for ~1s, then hide after content ready
-  // On live site the loader hides after page load + short delay
   function hideLoader(){
     loader.classList.add('hide-loader');
-    // After transition fully completes (opacity 1s + 0.8s delay = 1.8s), remove
-    setTimeout(function(){ loader.style.display = 'none'; }, 1900);
+    // Increased the kill-switch timer to 2.5s to let the smoother fade finish
+    setTimeout(function(){ loader.style.display = 'none'; }, 2500);
   }
   if(document.readyState === 'complete'){
-    setTimeout(hideLoader, 600);
+    setTimeout(hideLoader, 800); // Wait slightly longer before starting hide
   } else {
-    window.addEventListener('load', function(){ setTimeout(hideLoader, 600); });
+    window.addEventListener('load', function(){ setTimeout(hideLoader, 800); });
   }
 })();
 
