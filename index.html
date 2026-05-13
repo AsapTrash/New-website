@@ -264,10 +264,10 @@ footer{
 .home-stat-num em{font-style:italic;color:var(--green);}
 .home-stat-lbl{font-family:var(--ff-lexend);font-weight:300;font-size:11px;letter-spacing:0.05em;color:var(--text-5);}
 
-.home-brands{display:grid;grid-template-columns:1fr;}
+.home-brands{display:grid;grid-template-columns:1fr 1fr;}
 .home-brand{padding:72px 56px;position:relative;overflow:hidden;}
-.home-brand.ops{background:var(--raised); border-bottom:1px solid var(--green-hair);}
-.home-brand.labs{background:var(--surface);border-right:1px solid var(--green-hair);}
+.home-brand.ops{background:var(--raised); border-right:1px solid var(--green-hair);}
+.home-brand.labs{background:var(--surface);}
 .home-brand h2{margin:16px 0 14px;line-height:0.92;}
 .home-brand.ops h2,.home-brand.labs-h h2{
   font-family:var(--ff-cormorant);font-weight:600;
@@ -284,7 +284,7 @@ footer{
 .home-brand.ops p,.home-brand.labs-h p{font-family:var(--ff-jost);font-weight:300;}
 .home-brand.labs p{font-family:var(--ff-lexend);font-weight:300;}
 
-.home-brands-lower{display:grid;grid-template-columns:1fr 1fr;}
+.home-brands-lower{display:grid;grid-template-columns:1fr;}
 
 .home-testimonial{
   padding:80px 48px;background:var(--base);
@@ -604,16 +604,17 @@ footer{
       <p>Admin, billing, credentialing, and IT — handled by dedicated people trained in healthcare compliance. You focus on patients. We handle everything else.</p>
       <span class="btn-ghost-cormorant" onclick="go('ops')">Meet your ops team →</span>
     </div>
-  </div>
-
-  <div class="home-brands-lower">
+    
     <div class="home-brand labs">
       <div class="eyebrow-franklin pill">Zima Labs — Technology</div>
       <h2>Custom tech <em style="font-style:italic;color:var(--green);">built for therapy.</em></h2>
       <p>Websites, CRM, EHR implementation, custom apps, and IT help desk — all designed for the specific context of behavioral health practices.</p>
       <span class="btn-ghost-franklin" onclick="go('labs')">See what we build →</span>
     </div>
-    <div class="home-brand" style="background:var(--raised);">
+  </div>
+
+  <div class="home-brands-lower">
+    <div class="home-brand" style="background:var(--raised); border-top:1px solid var(--green-hair);">
       <div class="eyebrow-cormorant">BIPOC-Owned · Houston, TX</div>
       <h2 style="font-family:var(--ff-cormorant);font-weight:600;font-size:clamp(24px,3vw,38px);letter-spacing:-0.02em;color:var(--text-2);margin:16px 0 14px;line-height:0.94;">We built what small practices <em style="font-style:italic;color:var(--green-soft);">couldn't afford.</em></h2>
       <p style="font-family:var(--ff-jost);">The therapists most likely to serve underserved communities are running small, independent practices without operational support. That's the gap we're closing.</p>
