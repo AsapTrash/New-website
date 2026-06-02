@@ -19,7 +19,7 @@
   --green:      #5dcc88;
   --green-soft: #7dd898;
   --green-mid:  #588766; /* Lightened slightly */
-  --green-deep: #1e3828;
+  --green-deep: #588766; /* Brightened so decorative lines don't get lost */
   --green-hair: rgba(93, 204, 136, 0.15); /* Softer borders */
   
   --text-1: #ffffff;
@@ -27,8 +27,8 @@
   
   /* 2. Brightened these three so your sub-text doesn't camouflage! */
   --text-3: #92bfa0; 
-  --text-4: #6a9270; 
-  --text-5: #4a6b52; 
+  --text-4: #92bfa0; /* Matched to text-3 for perfect legibility */
+  --text-5: #92bfa0; /* Matched to text-3 for perfect legibility */
   
   --ff-franklin: 'Libre Franklin', sans-serif;
   --ff-cormorant:'Cormorant Garamond', serif;
@@ -366,8 +366,47 @@ footer{
 }
 .ops-pricing h2 em{font-style:italic;color:var(--green-soft);}
 
-.opc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+/* ops pricing tab nav */
+.ops-price-tabs{display:flex;gap:0;margin-bottom:36px;border:1px solid var(--green-hair);border-radius:4px;overflow:hidden;width:fit-content;}
+.ops-ptab{
+  font-family:var(--ff-cormorant);font-weight:600;font-size:15px;
+  letter-spacing:0.02em;color:var(--text-4);
+  padding:11px 24px;cursor:pointer;transition:all 0.2s;
+  border-right:1px solid var(--green-hair);background:var(--raised);
+}
+.ops-ptab:last-child{border-right:none;}
+.ops-ptab.active{background:var(--green);color:var(--void);}
+.ops-ptab:not(.active):hover{background:rgba(93,204,136,0.06);color:var(--text-2);}
 
+.ops-panel{display:none;}
+.ops-panel.active{display:block;}
+
+.opc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.opc-grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+/* ops add-ons */
+.ops-addons{padding:0 48px 88px;background:var(--surface);}
+.ops-addons-head{margin-bottom:28px;}
+.ops-addons-head h3{
+  font-family:var(--ff-cormorant);font-weight:600;font-size:28px;
+  letter-spacing:-0.01em;color:var(--text-2);margin-bottom:5px;
+}
+.ops-addons-head h3 em{font-style:italic;color:var(--green-soft);}
+.ops-addons-head p{font-family:var(--ff-jost);font-weight:300;font-size:13px;color:var(--text-4);}
+.ops-addon-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--green-hair);}
+.ops-addon-group{background:var(--raised);padding:28px 24px;}
+.ops-addon-group-title{
+  font-family:var(--ff-franklin);font-weight:700;font-size:9px;
+  text-transform:uppercase;letter-spacing:0.2em;color:var(--green-mid);
+  margin-bottom:16px;
+}
+.ops-addon-item{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:8px 0;border-bottom:1px solid var(--green-hair);gap:12px;
+}
+.ops-addon-item:last-child{border-bottom:none;}
+.ops-addon-item-name{font-family:var(--ff-jost);font-weight:300;font-size:12.5px;color:var(--text-3);line-height:1.4;flex:1;}
+.ops-addon-item-price{font-family:var(--ff-franklin);font-weight:700;font-size:12px;color:var(--green);white-space:nowrap;flex-shrink:0;}
 .opc{
   background:var(--raised);border:1px solid var(--elevated);
   border-radius:6px;padding:32px 28px;display:flex;flex-direction:column;
@@ -512,18 +551,18 @@ footer{
 @media(max-width:960px){
   nav{padding:0 24px;}
   .nav-links{gap:2px;}
-  .home-hero,.ops-hero,.labs-hero{padding:80px 24px 60px;}
+  .home-hero,.ops-hero,.connect-hero,.labs-hero{padding:80px 24px 60px;}
   .home-hero{flex-direction:column;}
   .home-hero-right{display:none;}
-  .home-stats{grid-template-columns:repeat(2,1fr);}
+  .home-stats,.connect-stats{grid-template-columns:repeat(2,1fr);}
   .home-brands,.home-brands-lower,.labs-approach{grid-template-columns:1fr;}
-  .svc-grid,.labs-grid,.cpc-grid,.opc-grid{grid-template-columns:1fr;}
+  .svc-grid,.feat-grid,.labs-grid,.cpc-grid,.opc-grid{grid-template-columns:1fr;}
   .addons-grid{grid-template-columns:repeat(2,1fr);}
   .blog-grid{grid-template-columns:1fr;}
   footer{grid-template-columns:1fr 1fr;padding:40px 24px 0;}
   .footer-bottom{padding:16px 24px;}
   .container{padding:0 24px;}
-  .labs-services-inner,.ops-pricing,.ops-services{padding-left:24px;padding-right:24px;}
+  .connect-compare,.connect-banner,.labs-services-inner,.ops-pricing,.ops-services,.connect-features,.connect-pricing{padding-left:24px;padding-right:24px;}
   .labs-cta-strip{flex-direction:column;align-items:flex-start;padding:48px 24px;}
   .home-testimonial{flex-direction:column;gap:32px;padding:48px 24px;}
   .ht-divider{display:none;}
@@ -532,38 +571,60 @@ footer{
 </head>
 <body>
 
+<!-- ══ LOADER (exact match to zima.health) ══ -->
 <div id="loader">
   <div class="loader-bg"></div>
-<img class="loader-zh" src="images/ball_zh.svg" alt="Zima Health">
+  <img class="loader-zh" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTY3IiBoZWlnaHQ9IjU2NyIgdmlld0JveD0iMCAwIDU2NyA1NjciPjxkZWZzPjxwb2x5Z29uIGlkPSJhIiBwb2ludHM9IjAgMCA1NjYuOTU3IDAgNTY2Ljk1NyA1NjYuOTU2IDAgNTY2Ljk1NiIvPjwvZGVmcz48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxtYXNrIGlkPSJiIiBmaWxsPSIjZmZmIj48dXNlIHhsaW5rOmhyZWY9IiNhIi8+PC9tYXNrPjxwYXRoIGZpbGw9IiMyOEZGNTIiIGQ9Ik01NjYuOTU2NiwyODMuNDc4IEM1NjYuOTU2Niw0NDAuMDM5IDQ0MC4wMzg2LDU2Ni45NTYgMjgzLjQ3ODYsNTY2Ljk1NiBDMTI2LjkxNzYsNTY2Ljk1NiAtMC4wMDA0LDQ0MC4wMzkgLTAuMDAwNCwyODMuNDc4IEMtMC4wMDA0LDEyNi45MTcgMTI2LjkxNzYsMCAyODMuNDc4NiwwIEM0NDAuMDM4NiwwIDU2Ni45NTY2LDEyNi45MTcgNTY2Ljk1NjYsMjgzLjQ3OCIgbWFzaz0idXJsKCNiKSIvPjxnIGZpbGw9IiMwRDI5MjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExMCAxMTApIj48cGF0aCBkPSJNMTU2LjUzMTIzOCAxMzAgMTQ1Ljg5NjIyNyAxMzBDMTQ1Ljg5NjIyNyAxNDQuNzE3MDg0IDEzMy4zOTQxNDcgMTUzLjkwNDUwOCAxMTguOTE1NjM0IDE2NC41NDMyNDggMTAzLjEwODkzNCAxNzYuMTU4NTYxIDg1LjI2ODc0MzIgMTg5LjI2NjYxIDg0LjAwMzk1MzYgMjEyLjM2NjYwMSA4My45MjQ3MDYxIDIxMy43OTA4MzUgODUuMDQ2ODUwMyAyMTUgODYuNDY2OTY0OSAyMTVMOTcuMTE3ODI0OCAyMTVDOTcuMTE3ODI0OCAxOTYuOTc4ODIxIDExMS40ODUzOTEgMTg2LjQyMTMyOSAxMjYuNjk3NzM1IDE3NS4yNDI1MjYgMTM0LjMzMDg1MiAxNjkuNjMzMjEyIDE0Mi4yMjM5IDE2My44MzQzMTcgMTQ4LjI0MDM2NyAxNTYuOTU4NDg2IDE1NC44NzMzODEgMTQ5LjM3ODUwMiAxNTguNDA3ODE4IDE0MS40MDAyNDQgMTU4Ljk5NDI0OSAxMzIuNjQ2MTQ0IDE1OS4wOTA5MzEgMTMxLjIxNzEzMSAxNTcuOTU2MTA3IDEzMCAxNTYuNTMxMjM4IDEzME05MS40ODQxNzYyIDEzMCAxNDYgMTMwIDE0NiAxMTkuNDM0NTU3QzE0NiAxMTguMDg5MzUgMTQ0Ljg4NzU2MyAxMTcgMTQzLjUxNTgyNCAxMTdMOTEuNDg0MTc2MiAxMTdDOTAuMTEyNDM3MiAxMTcgODkgMTE4LjA4OTM1IDg5IDExOS40MzQ1NTdMODkgMTI3LjU2Mzg3M0M4OSAxMjguOTA5MDggOTAuMTEyNDM3MiAxMzAgOTEuNDg0MTc2MiAxMzBNMTU0LjUwNzUxNyAyMTYgOTYgMjE2IDk2IDIyNi41NjU0NDNDOTYgMjI3LjkxMDY1IDk3LjExNjE1NzIgMjI5IDk4LjQ5MjQ4MzUgMjI5TDE1NC41MDc1MTcgMjI5QzE1NS44ODM4NDMgMjI5IDE1NyAyMjcuOTEwNjUgMTU3IDIyNi41NjU0NDNMMTU3IDIxOC40MzYxMjdDMTU3IDIxNy4wOTA5MiAxNTUuODgzODQzIDIxNiAxNTQuNTA3NTE3IDIxNk0xODEuNDAxNTk0IDE2NiAxOTIgMTY2IDE5MiAxMTkuNDI0ODhDMTkyIDExOC4wODU2NDkgMTkwLjkyNDc3NyAxMTcgMTg5LjU5ODQwNiAxMTdMMTgxLjQwMTU5NCAxMTdDMTgwLjA3NTIyMyAxMTcgMTc5IDExOC4wODU2NDkgMTc5IDExOS40MjQ4OEwxNzkgMTYzLjU3NTEyQzE3OSAxNjQuOTE0MzUxIDE4MC4wNzUyMjMgMTY2IDE4MS40MDE1OTQgMTY2TTI2MS41OTg0MDYgMTc2IDI1MSAxNzYgMjUxIDIyNi41ODMwMUMyNTEgMjI3LjkxNzg4NCAyNTIuMDc1MjIzIDIyOSAyNTMuNDAxNTk0IDIyOUwyNjEuNTk4NDA2IDIyOUMyNjIuOTI0Nzc3IDIyOSAyNjQgMjI3LjkxNzg4NCAyNjQgMjI2LjU4MzAxTDI2NCAxNzguNDE2OTlDMjY0IDE3Ny4wODIxMTYgMjYyLjkyNDc3NyAxNzYgMjYxLjU5ODQwNiAxNzYiLz48cGF0aCBkPSJNMjYwLjU1MzkxLDExNyBMMjUyLjE0NjA3NiwxMTcgQzI1MC43OTUxMzEsMTE3IDI0OS42OTk5ODcsMTE4LjA5NjE0MSAyNDkuNjk5OTg3LDExOS40NDgzMTUgTDI0OS42OTk5ODcsMTUyLjQ3ODE2MSBDMjQ5LjY5OTk4NywxNTguNjU0OTU2IDI0NC42OTc0OTMsMTYzLjY2MTk5OSAyMzguNTI2MzEzLDE2My42NjE5OTkgTDIxMC4yNzMxNzcsMTYzLjY2MTk5OSBMMjEwLjI3MzE3NywxNjMuNjk3MjA0IEwyMDQuMTY0MzQ4LDE2My42OTcyMDQgQzE5MC4yNjY0MDEsMTYzLjY5NzIwNCAxNzksMTc0Ljk3Mzg1NCAxNzksMTg4Ljg4NDQ0MiBMMTc5LDIyNi41NTE2ODUgQzE3OSwyMjcuOTAzODU5IDE4MC4wOTUxNDUsMjI5IDE4MS40NDYwOSwyMjkgTDE4OS44NTM5MjQsMjI5IEMxOTEuMjA0ODY5LDIyOSAxOTIuMzAwMDEzLDIyNy45MDM4NTkgMTkyLjMwMDAxMywyMjYuNTUxNjg1IEwxOTIuMzAwMDEzLDE4OS4zMDg0OTcgQzE5Mi4zMDAwMTMsMTgzLjEzMTcwMyAxOTcuMzAyNTA3LDE3OC4xMjQ2NTkgMjAzLjQ3MzY4NywxNzguMTI0NjU5IEwyMzEuNzI2ODIzLDE3OC4xMjQ2NTkgTDIzMS43MjY4MjMsMTc4LjA4OTQ1NCBMMjM3LjIxNjkzNSwxNzguMDg5NDU0IEMyNTEuNDU3MDE1LDE3OC4wODk0NTQgMjYzLDE2Ni41MzU5NjkgMjYzLDE1Mi4yODI5MzYgTDI2MywxMTkuNDQ4MzE1IEMyNjMsMTE4LjA5NjE0MSAyNjEuOTA0ODU1LDExNyAyNjAuNTUzOTEsMTE3Ii8+PHBhdGggZD0iTTMwMS44MTQ4ODkgMjg3QzMwMC40MTA3NDIgMjg3IDI5OC45OTg2MDcgMjg2LjUyNTU2MiAyOTcuODM4ODY4IDI4NS41NTI3MjQgMjk1LjIxNDI3OCAyODMuMzU2MjUgMjk0Ljg2NzYzNCAyNzkuNDQ3MzI2IDI5Ny4wNjU3MDggMjc2LjgyMTE0MyAzMjEuMjcxNjc1IDI0Ny45MTg3NDggMzM0LjYwMzg4NyAyMTEuMjE0NDc5IDMzNC42MDM4ODcgMTczLjQ3MDI4IDMzNC42MDM4ODcgODQuNjU0NDgwOSAyNjIuMzQ3MDA2IDEyLjM5NzY5NDYgMTczLjUyOTQ5MyAxMi4zOTc2OTQ2IDEzNS43ODM2NDggMTIuMzk3Njk0NiA5OS4wNzkzMzE2IDI1LjcyODI5MTMgNzAuMTc4NDk2MyA0OS45MzQyMjY5IDY3LjU1NTUwNDMgNTIuMTMyMjk3NyA2My42NDQ5Nzc4IDUxLjc4NzI1MTcgNjEuNDQ2OTA0MSA0OS4xNjI2NjU3IDU5LjI0ODgzMDQgNDYuNTM2NDgyMiA1OS41OTM4NzY5IDQyLjYyNzU1ODMgNjIuMjE4NDY2MyA0MC40MzEwODQ5IDkzLjM0NzcyNjYgMTQuMzU5MzQ1IDEzMi44Nzk1MDcgMCAxNzMuNTI5NDkzIDAgMjY5LjE4MjQ0IDAgMzQ3IDc3LjgxOTA1NTcgMzQ3IDE3My40NzAyOCAzNDcgMjE0LjEyMDIxNCAzMzIuNjQyMjM0IDI1My42NTAzNDUgMzA2LjU2ODg2MiAyODQuNzgxMTYzIDMwNS4zNDM2MjggMjg2LjI0NjAxMSAzMDMuNTg0ODUgMjg3IDMwMS44MTQ4ODkgMjg3TTE3My40NzA4MjMgMzQ2Qzc3LjgxNzcwMTQgMzQ2IDAgMjY4LjE4Mjc2MSAwIDE3Mi41MzAyMDggMCAxMzEuODc4NzkxIDE0LjM1Nzc5MjQgOTIuMzQ4NzcxNCA0MC40Mjk2MTM4IDYxLjIxOTYzOTMgNDIuNjI3NjkxNSA1OC41OTM0NjMyIDQ2LjUzNTAzMDIgNTguMjQ4NDE4MiA0OS4xNjEyMjE4IDYwLjQ0ODA4MDMgNTEuNzg1ODE2MSA2Mi42NDYxNDQ5IDUyLjEzMDg2MzIgNjYuNTU1MDU3OSA0OS45MzI3ODU1IDY5LjE3OTYzNjUgMjUuNzI2Nzc0MyA5OC4wODAzNTI3IDEyLjM5NjEzNTkgMTM0Ljc4NDUxOCAxMi4zOTYxMzU5IDE3Mi41MzAyMDggMTIuMzk2MTM1OSAyNjEuMzQ1NzU3IDg0LjY1NDc0NTQgMzMzLjYwMzkzOCAxNzMuNDcwODIzIDMzMy42MDM5MzggMjExLjIxNjczNyAzMzMuNjAzOTM4IDI0Ny45MjExMiAzMjAuMjczMzc5IDI3Ni44MjIwMDggMjk2LjA2NzUxMSAyNzkuNDQ1MDA1IDI5My44Njk0NDcgMjgzLjM1NTUzOCAyOTQuMjE0NDkyIDI4NS41NTM2MTYgMjk2LjgzOTA3IDI4Ny43NTE2OTQgMjk5LjQ2MjA1MSAyODcuNDA1MDQ5IDMwMy4zNzI1NjIgMjg0Ljc4MjA1MiAzMDUuNTcwNjI2IDI1My42NTI3MzUgMzMxLjY0MDY5NSAyMTQuMTIyNDggMzQ2IDE3My40NzA4MjMgMzQ2Ii8+PC9nPjwvZz48L3N2Zz4=" alt="Zima Health">
 </div>
 
-<div class="global-bg-wrapper">
-  <div class="global-bg"></div>
-</div>
-
+<!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="go('home')">Zima<span class="dot">.</span></div>
   <div class="nav-links">
     <span class="nav-link" onclick="go('home')" id="nl-home">Home</span>
     <span class="nav-link" onclick="go('ops')" id="nl-ops">Zima Ops</span>
     <span class="nav-link" onclick="go('labs')" id="nl-labs">Zima Labs</span>
+    <span class="nav-link" onclick="go('connect')" id="nl-connect">ZimaConnect</span>
     <span class="nav-link" onclick="go('blog')" id="nl-blog">Blog</span>
     <span class="nav-cta" onclick="go('contact')">Get Started</span>
   </div>
 </nav>
 
+<!-- ══ HOME ══ -->
 <div class="page active" id="page-home">
+  <div class="homepage-bg-wrapper"><div class="homepage-bg" id="homepage-bg"></div></div>
   <section class="home-hero">
     <div class="home-hero-left">
       <div class="eyebrow-cormorant a1">The operating system for your practice</div>
       <h1 class="a2">Built for the therapist <em>doing it all.</em></h1>
-      <p class="home-hero-sub a3">Full operations support, custom technology, and infrastructure — built exclusively for therapy practices. Everything you need to stop drowning in admin and get back to the work that matters.</p>
+      <p class="home-hero-sub a3">Phone infrastructure, full operations support, and custom technology — built exclusively for therapy practices. Everything you need to stop drowning in admin and get back to the work that matters.</p>
       <div class="home-actions a4">
         <span class="btn-primary" onclick="go('contact')">Talk to us →</span>
         <span class="btn-ghost-cormorant" onclick="go('ops')">See how it works</span>
       </div>
     </div>
-
+    <div class="home-hero-right a3">
+      <div class="product-stack">
+        <div class="product-chip" onclick="go('ops')">
+          <div class="pc-eyebrow">Operations Support</div>
+          <div class="pc-name-cormorant"><em>Zima Ops</em></div>
+          <div class="pc-sub">Full-service admin, billing & credentialing</div>
+          <div class="pc-arrow">→</div>
+        </div>
+        <div class="product-chip" onclick="go('labs')">
+          <div class="pc-eyebrow">Technology</div>
+          <div class="pc-name-franklin">Zima Labs</div>
+          <div class="pc-sub">IT, websites, CRM & custom software</div>
+          <div class="pc-arrow">→</div>
+        </div>
+        <div class="product-chip" onclick="go('connect')">
+          <div class="pc-eyebrow">Phone System</div>
+          <div class="pc-name-franklin">ZimaConnect</div>
+          <div class="pc-sub">HIPAA-compliant VoIP from $35/mo</div>
+          <div class="pc-arrow">→</div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <div class="home-stats">
@@ -581,17 +642,22 @@ footer{
       <p>Admin, billing, credentialing, and IT — handled by dedicated people trained in healthcare compliance. You focus on patients. We handle everything else.</p>
       <span class="btn-ghost-cormorant" onclick="go('ops')">Meet your ops team →</span>
     </div>
-    
-    <div class="home-brand labs">
-      <div class="eyebrow-franklin pill">Zima Labs — Technology</div>
-      <h2>Custom tech <em style="font-style:italic;color:var(--green);">built for therapy.</em></h2>
-      <p>Websites, CRM, EHR implementation, custom apps, and IT help desk — all designed for the specific context of behavioral health practices.</p>
-      <span class="btn-ghost-franklin" onclick="go('labs')">See what we build →</span>
+    <div class="home-brand connect">
+      <div class="eyebrow-franklin pill">ZimaConnect — Phone System</div>
+      <h2>A phone system that <em>runs itself.</em></h2>
+      <p>HIPAA-compliant VoIP with IVR, call forwarding, SMS, and voicemail-to-email. We set it up, we manage it. Your practice never goes dark.</p>
+      <span class="btn-ghost-franklin" onclick="go('connect')">Explore ZimaConnect →</span>
     </div>
   </div>
 
   <div class="home-brands-lower">
-    <div class="home-brand" style="background:var(--raised); border-top:1px solid var(--green-hair);">
+    <div class="home-brand labs" style="background:var(--surface);border-right:1px solid var(--green-hair);">
+      <div class="eyebrow-franklin pill">Zima Labs — Technology</div>
+      <h2 style="font-family:var(--ff-franklin);font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;font-size:clamp(22px,2.8vw,36px);color:var(--text-1);margin:16px 0 14px;line-height:0.92;">Custom tech <em style="font-style:italic;color:var(--green);">built for therapy.</em></h2>
+      <p style="font-family:var(--ff-lexend);">Websites, CRM, EHR implementation, custom apps, and IT help desk — all designed for the specific context of behavioral health practices.</p>
+      <span class="btn-ghost-franklin" onclick="go('labs')">See what we build →</span>
+    </div>
+    <div class="home-brand" style="background:var(--raised);">
       <div class="eyebrow-cormorant">BIPOC-Owned · Houston, TX</div>
       <h2 style="font-family:var(--ff-cormorant);font-weight:600;font-size:clamp(24px,3vw,38px);letter-spacing:-0.02em;color:var(--text-2);margin:16px 0 14px;line-height:0.94;">We built what small practices <em style="font-style:italic;color:var(--green-soft);">couldn't afford.</em></h2>
       <p style="font-family:var(--ff-jost);">The therapists most likely to serve underserved communities are running small, independent practices without operational support. That's the gap we're closing.</p>
@@ -599,9 +665,9 @@ footer{
     </div>
   </div>
 
-  <div class="home-testimonial" style="background:var(--surface);">
+  <div class="home-testimonial">
     <div>
-      <div class="ht-quote">"Zima gave me back 10 hours a week. My practice runs smoother than ever, and my ops team knows my workflow better than I do."</div>
+      <div class="ht-quote">"Zima gave me back 10 hours a week. The phone never goes unanswered, and my ops team knows my practice better than I do."</div>
       <div class="ht-attr">— Group Practice Owner · Denver, CO</div>
     </div>
     <div class="ht-divider"></div>
@@ -616,14 +682,16 @@ footer{
       <div class="nav-logo">Zima<span class="dot">.</span></div>
       <div class="footer-tagline">The operating system for therapy practices. BIPOC-owned, Houston TX.</div>
     </div>
-    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li></ul></div>
+    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li><li onclick="go('connect')">ZimaConnect</li></ul></div>
     <div class="footer-col"><h4>Company</h4><ul><li onclick="go('contact')">About Us</li><li onclick="go('blog')">Blog</li><li onclick="go('contact')">Contact</li></ul></div>
     <div class="footer-col"><h4>Legal</h4><ul><li>Privacy Policy</li><li>Terms of Service</li><li>HIPAA Compliance</li><li>BAA Agreement</li></ul></div>
   </footer>
   <div class="footer-bottom"><p>© 2026 Zima Health. All rights reserved.</p><p>HIPAA-compliant · BAA available · BIPOC-owned</p></div>
 </div>
 
+<!-- ══ ZIMA OPS ══ -->
 <div class="page" id="page-ops">
+  <div class="homepage-bg-wrapper"><div class="homepage-bg" id="ops-bg"></div></div>
   <section class="ops-hero">
     <div class="eyebrow-cormorant a1">Zima Ops — Operations Support</div>
     <h1 class="a2">The team that <em>runs your practice</em> while you see patients.</h1>
@@ -662,6 +730,7 @@ footer{
   <section class="ops-pricing">
     <div class="container">
 
+      <!-- ADMIN SUPPORT -->
       <div class="ops-pricing-block">
         <div class="ops-pricing-header">
           <div class="eyebrow-cormorant" style="margin-bottom:14px;">Administrative Support</div>
@@ -721,6 +790,7 @@ footer{
         </div>
       </div>
 
+      <!-- EXECUTIVE SUPPORT -->
       <div class="ops-pricing-block">
         <div class="ops-pricing-header">
           <div class="eyebrow-cormorant" style="margin-bottom:14px;">Executive Support</div>
@@ -783,6 +853,106 @@ footer{
         </div>
       </div>
 
+      <!-- MARKETING -->
+      <div class="ops-pricing-block">
+        <div class="ops-pricing-header">
+          <div class="eyebrow-cormorant" style="margin-bottom:14px;">Marketing Assistance</div>
+          <h2>Visibility that <em>brings patients to you.</em></h2>
+          <p class="ops-pricing-intro">SEO, social, strategy, and content — all built for therapy practices. Marketing packages subject to a 6-month contract term.</p>
+        </div>
+        <div class="opc-grid">
+          <div class="opc">
+            <div class="opc-name">Foundation</div>
+            <div class="opc-tagline">Solo or part-time practitioners building their foundational online presence</div>
+            <div class="opc-price">$450<span>/mo</span></div>
+            <div class="opc-hours">10 Hours / Month</div>
+            <div class="opc-div"></div>
+            <ul class="opc-list">
+              <li>Local SEO setup & management</li>
+              <li>Directory listing setup & management</li>
+              <li>1 SEO blog per month</li>
+            </ul>
+            <div class="opc-cta"><span class="btn-outline" onclick="go('contact')">Get Started →</span></div>
+          </div>
+          <div class="opc featured">
+            <div class="opc-badge">Most Popular</div>
+            <div class="opc-name">Momentum</div>
+            <div class="opc-tagline">Busy solo practices or practices ready to scale with long-term visibility plans</div>
+            <div class="opc-price">$800<span>/mo</span></div>
+            <div class="opc-hours">20 Hours / Month</div>
+            <div class="opc-div"></div>
+            <ul class="opc-list">
+              <li>Everything in Foundation</li>
+              <li>Marketing strategy plan & execution</li>
+              <li>1 additional monthly blog (2 total)</li>
+              <li>2 social media posts per month</li>
+              <li>Event & outreach coordination</li>
+              <li>Social media management</li>
+              <li>1 monthly consulting meeting</li>
+            </ul>
+            <div class="opc-cta"><span class="btn-primary" onclick="go('contact')">Get Started →</span></div>
+          </div>
+          <div class="opc">
+            <div class="opc-name">Impact</div>
+            <div class="opc-tagline">Growing practices that want strategic, data-driven marketing at the forefront</div>
+            <div class="opc-price">$1,700<span>/mo</span></div>
+            <div class="opc-hours">40 Hours / Month</div>
+            <div class="opc-div"></div>
+            <ul class="opc-list">
+              <li>Everything in Momentum</li>
+              <li>2 additional blogs (4 total per month)</li>
+              <li>4 social media posts per month (4 total)</li>
+              <li>Market analysis</li>
+              <li>Brand review & audit</li>
+              <li>Data & reporting dashboard</li>
+              <li>Business Consulting Partnership</li>
+            </ul>
+            <div class="opc-cta"><span class="btn-outline" onclick="go('contact')">Get Started →</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD-ONS -->
+      <div class="ops-pricing-block">
+        <div class="ops-pricing-header">
+          <div class="eyebrow-cormorant" style="margin-bottom:14px;">À La Carte Add-Ons</div>
+          <h2>Only pay for what <em>you need.</em></h2>
+          <p class="ops-pricing-intro">Add any of these to any plan, or use them standalone.</p>
+        </div>
+        <div class="ops-addons-section">
+          <div class="ops-addon-category">
+            <div class="ops-addon-cat-label">IT Services</div>
+            <div class="ops-addons-row">
+              <div class="ops-addon"><div class="ops-addon-name">CRM Implementation & Management</div><div class="ops-addon-price">$250 – $500</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Phone Implementation & Management</div><div class="ops-addon-price">$150 – $300</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">EHR Implementation & Management</div><div class="ops-addon-price">$500</div></div>
+            </div>
+          </div>
+          <div class="ops-addon-category">
+            <div class="ops-addon-cat-label">Marketing</div>
+            <div class="ops-addons-row">
+              <div class="ops-addon"><div class="ops-addon-name">Marketing & Brand Audit</div><div class="ops-addon-price">$500</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Social Media — 8 posts/month</div><div class="ops-addon-price">$250/mo</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Social Media — 12 posts/month</div><div class="ops-addon-price">$400/mo</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Engagement Management (1 platform)</div><div class="ops-addon-price">$100/mo</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">SEO & Content Writing (up to 800 words)</div><div class="ops-addon-price">$175/blog</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Basic Local SEO Setup</div><div class="ops-addon-price">$250</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Psychology Today SEO Optimization</div><div class="ops-addon-price">$100</div></div>
+            </div>
+          </div>
+          <div class="ops-addon-category">
+            <div class="ops-addon-cat-label">Insurance & Credentialing</div>
+            <div class="ops-addons-row">
+              <div class="ops-addon"><div class="ops-addon-name">Credentialing — per inquiry</div><div class="ops-addon-price">$55</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Credentialing — per application</div><div class="ops-addon-price">$220</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Re-attestation (per payor)</div><div class="ops-addon-price">$55</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">CAQH Maintenance (per payor)</div><div class="ops-addon-price">$55</div></div>
+              <div class="ops-addon"><div class="ops-addon-name">Claims Processing Systems Audit</div><div class="ops-addon-price">$350 / Case by Case</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -800,13 +970,14 @@ footer{
 
   <footer>
     <div class="footer-logo-wrap"><div class="nav-logo">Zima<span class="dot">.</span></div><div class="footer-tagline">The operating system for therapy practices.</div></div>
-    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li></ul></div>
+    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li><li onclick="go('connect')">ZimaConnect</li></ul></div>
     <div class="footer-col"><h4>Company</h4><ul><li onclick="go('contact')">About Us</li><li onclick="go('blog')">Blog</li><li onclick="go('contact')">Contact</li></ul></div>
     <div class="footer-col"><h4>Legal</h4><ul><li>Privacy Policy</li><li>Terms of Service</li><li>HIPAA Compliance</li></ul></div>
   </footer>
   <div class="footer-bottom"><p>© 2026 Zima Health. All rights reserved.</p><p>HIPAA-compliant · BAA available · BIPOC-owned</p></div>
 </div>
 
+<!-- ══ ZIMA LABS ══ -->
 <div class="page" id="page-labs">
   <section class="labs-hero">
     <div class="labs-hero-tag a1">
@@ -919,13 +1090,169 @@ footer{
 
   <footer>
     <div class="footer-logo-wrap"><div class="nav-logo">Zima<span class="dot">.</span></div><div class="footer-tagline">The operating system for therapy practices.</div></div>
-    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li></ul></div>
+    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li><li onclick="go('connect')">ZimaConnect</li></ul></div>
     <div class="footer-col"><h4>Company</h4><ul><li onclick="go('contact')">About Us</li><li onclick="go('blog')">Blog</li><li onclick="go('contact')">Contact</li></ul></div>
     <div class="footer-col"><h4>Legal</h4><ul><li>Privacy Policy</li><li>Terms of Service</li><li>HIPAA Compliance</li></ul></div>
   </footer>
   <div class="footer-bottom"><p>© 2026 Zima Health. All rights reserved.</p><p>HIPAA-compliant · BAA available · BIPOC-owned</p></div>
 </div>
 
+<!-- ══ ZIMACONNECT ══ -->
+<div class="page" id="page-connect">
+  <section class="connect-hero">
+    <div class="eyebrow-franklin pill a1">ZimaConnect — Phone System</div>
+    <h1 class="a2">A phone system that <em>actually works</em> for your practice.</h1>
+    <p class="connect-hero-sub a3">Professional, HIPAA-compliant VoIP built for therapists — stand-alone or seamlessly paired with your Zima Ops team. We set it up. We manage it. You just answer calls.</p>
+    <div class="home-actions a4">
+      <span class="btn-primary" onclick="go('contact')">Get Started →</span>
+      <span class="btn-ghost-franklin">See pricing below</span>
+    </div>
+  </section>
+
+  <div class="connect-stats">
+    <div class="cs"><div class="cs-num"><em>99.9%</em></div><div class="cs-lbl">Uptime guarantee</div></div>
+    <div class="cs"><div class="cs-num">48<em>hr</em></div><div class="cs-lbl">Average setup time</div></div>
+    <div class="cs"><div class="cs-num"><em>Free</em></div><div class="cs-lbl">Number porting</div></div>
+    <div class="cs"><div class="cs-num">0<em> IT</em></div><div class="cs-lbl">Required on your end</div></div>
+  </div>
+
+  <section class="connect-features" style="padding:88px 48px;">
+    <div class="container" style="padding:0;">
+      <div class="connect-features-head">
+        <div class="eyebrow-franklin pill" style="margin-bottom:16px;">What's included</div>
+        <h2>Everything your practice <em>needs to stay connected.</em></h2>
+        <p>Every plan includes setup, management, and a BAA. No IT team required, no support tickets for basic changes.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat"><div class="feat-marker"><div class="feat-marker-dot"></div></div><div class="feat-title">HIPAA-Compliant</div><div class="feat-body">Full BAA included. Infrastructure built to meet healthcare requirements from day one — no add-ons, no upsells.</div></div>
+        <div class="feat"><div class="feat-marker"><div class="feat-marker-dot"></div></div><div class="feat-title">We Set It Up</div><div class="feat-body">No IT needed. We configure everything, port your number for free, and manage it on an ongoing basis.</div></div>
+        <div class="feat"><div class="feat-marker"><div class="feat-marker-dot"></div></div><div class="feat-title">Always On</div><div class="feat-body">After-hours greetings, call forwarding to mobile and desk, voicemail-to-email. Your practice never goes dark.</div></div>
+        <div class="feat"><div class="feat-marker"><div class="feat-marker-dot"></div></div><div class="feat-title">Smart IVR</div><div class="feat-body">Phone trees with up to 10 options, sub-menus, and time-based routing. Callers reach the right person, every time.</div></div>
+        <div class="feat"><div class="feat-marker"><div class="feat-marker-dot"></div></div><div class="feat-title">SMS Messaging</div><div class="feat-body">Two-way texting from your business number. Reminders, confirmations, and follow-ups from one inbox.</div></div>
+        <div class="feat"><div class="feat-marker"><div class="feat-marker-dot"></div></div><div class="feat-title">Changes in Minutes</div><div class="feat-body">Text us a change — new greeting, added extension, updated routing — done in minutes, not support tickets.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="connect-pricing">
+    <div class="container" style="padding:0;">
+      <h2>Simple, <em>transparent</em> pricing.</h2>
+      <p class="connect-pricing-sub">No Zima Ops package required. Use ZimaConnect standalone or bundle it for maximum impact.</p>
+      <div class="cpc-grid">
+        <div class="cpc">
+          <div class="cpc-name">Base</div>
+          <div class="cpc-tagline">Solo practitioners & small practices (1–4 staff)</div>
+          <div class="cpc-price">$35<span>/mo</span></div>
+          <div class="cpc-div"></div>
+          <ul class="cpc-list">
+            <li>1 Phone Number — port yours free</li>
+            <li>Up to 4 Extensions w/ voicemail-to-email</li>
+            <li>Basic IVR / Phone Tree (3 menu options)</li>
+            <li>After-Hours Greeting with auto routing</li>
+            <li>Call Forwarding to desk + mobile</li>
+            <li>Unlimited US & Canada calls</li>
+            <li>HIPAA-Compliant infrastructure + BAA</li>
+            <li>Professional greeting recorded for you</li>
+            <li>We set it up and manage it</li>
+          </ul>
+          <div class="cpc-cta"><span class="btn-outline" onclick="go('contact')">Get Started →</span></div>
+        </div>
+        <div class="cpc featured">
+          <div class="cpc-badge">Most Popular</div>
+          <div class="cpc-name">Growth</div>
+          <div class="cpc-tagline">Mid-size practices with 5–10 staff</div>
+          <div class="cpc-price">$65<span>/mo</span></div>
+          <div class="cpc-savings">Save $15/mo vs à la carte</div>
+          <div class="cpc-div"></div>
+          <ul class="cpc-list">
+            <li>Everything in Base</li>
+            <li>Up to 8 Extensions (4 additional)</li>
+            <li>Advanced IVR — 10 options, sub-menus, time-based routing</li>
+            <li>SMS / Text Messaging — two-way client texting</li>
+            <li>1 Additional Phone Number</li>
+            <li>Custom hold music</li>
+            <li>Call Queue & Ring Groups — callback option</li>
+          </ul>
+          <div class="cpc-cta"><span class="btn-primary" onclick="go('contact')">Get Started →</span></div>
+        </div>
+        <div class="cpc">
+          <div class="cpc-name">Enterprise</div>
+          <div class="cpc-tagline">Large or multi-location practices</div>
+          <div class="cpc-price">$120<span>/mo</span></div>
+          <div class="cpc-savings">Save $35/mo vs à la carte</div>
+          <div class="cpc-div"></div>
+          <ul class="cpc-list">
+            <li>Everything in Growth</li>
+            <li>Up to 15 Extensions</li>
+            <li>Call Recording with secure cloud storage</li>
+            <li>Priority Support — 1hr response, after-hours emergency</li>
+            <li>2 Additional Phone Numbers</li>
+            <li>Quarterly system review & optimization</li>
+          </ul>
+          <div class="cpc-cta"><span class="btn-outline" onclick="go('contact')">Get Started →</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:48px;">
+        <div class="addons-title">À La Carte Add-Ons</div>
+        <div class="addons-grid">
+          <div class="addon"><div class="addon-name">Additional Extensions</div><div class="addon-price">$5<span>/mo each</span></div><div class="addon-desc">Add staff, interns, or admin. Includes voicemail-to-email and mobile app access.</div></div>
+          <div class="addon"><div class="addon-name">Advanced IVR</div><div class="addon-price">$10<span>/mo</span></div><div class="addon-desc">Up to 10 options, multi-level menus, time-based routing, and custom hold music.</div></div>
+          <div class="addon"><div class="addon-name">SMS / Texting</div><div class="addon-price">$10<span>/mo</span></div><div class="addon-desc">Two-way texting from your business number. Reminders, confirmations, and more.</div></div>
+          <div class="addon"><div class="addon-name">Call Recording</div><div class="addon-price">$15<span>/mo</span></div><div class="addon-desc">Record all calls or specific extensions. Secure cloud storage with download access.</div></div>
+          <div class="addon"><div class="addon-name">Additional Numbers</div><div class="addon-price">$5<span>/mo</span></div><div class="addon-desc">Separate lines for locations, virtual fax, or dedicated intake. +$3 for toll-free.</div></div>
+          <div class="addon"><div class="addon-name">Call Queue</div><div class="addon-price">$10<span>/mo</span></div><div class="addon-desc">Position announcements, callback option, advanced routing + queue reporting.</div></div>
+          <div class="addon"><div class="addon-name">Priority Support</div><div class="addon-price">$20<span>/mo</span></div><div class="addon-desc">1-hour response, phone support, after-hours emergencies, quarterly review.</div></div>
+          <div class="addon"><div class="addon-name">Crisis Protocol</div><div class="addon-price">Included</div><div class="addon-desc">Mental health crisis routing protocols built into your IVR — no extra charge.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="connect-compare">
+    <div class="container" style="padding:0;">
+      <h3>How we compare</h3>
+      <table>
+        <thead>
+          <tr><th>Feature</th><th class="hl">ZimaConnect</th><th>RingCentral</th><th>Vonage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Monthly cost (4 users)</td><td class="hl">$35</td><td>$120–160</td><td>$80–120</td></tr>
+          <tr><td>Setup</td><td class="hl">We do it for you</td><td>DIY</td><td>DIY</td></tr>
+          <tr><td>Changes & updates</td><td class="hl">Text us — done in minutes</td><td>Call support, wait</td><td>Figure it out yourself</td></tr>
+          <tr><td>HIPAA BAA included</td><td><span class="check-y">✓</span></td><td><span class="check-n">✗</span> Extra cost</td><td><span class="check-n">✗</span> Extra cost</td></tr>
+          <tr><td>Crisis protocols</td><td><span class="check-y">✓</span></td><td><span class="check-n">✗</span></td><td><span class="check-n">✗</span></td></tr>
+          <tr><td>Zima Ops integration</td><td><span class="check-y">✓</span> Seamless</td><td><span class="check-n">✗</span></td><td><span class="check-n">✗</span></td></tr>
+          <tr><td>Number porting</td><td class="hl">Free</td><td>Varies</td><td>Varies</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="connect-banner">
+    <div class="banner-inner">
+      <h2>Better together with <em>Zima Ops.</em></h2>
+      <p>ZimaConnect works great on its own — but pair it with a Zima virtual admin and your phone system practically runs itself. Your admin answers calls, updates greetings, adds extensions, and sends texts. All without you touching a thing.</p>
+      <div class="banner-pills">
+        <div class="pill"><span>✦</span> Zero training needed for your admin</div>
+        <div class="pill"><span>✦</span> Changes in minutes, not days</div>
+        <div class="pill"><span>✦</span> One team manages everything</div>
+        <div class="pill"><span>✦</span> HIPAA-compliant end to end</div>
+      </div>
+      <div style="margin-top:28px;"><span class="btn-primary" onclick="go('ops')">Explore Zima Ops →</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo-wrap"><div class="nav-logo">Zima<span class="dot">.</span></div><div class="footer-tagline">The operating system for therapy practices.</div></div>
+    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li><li onclick="go('connect')">ZimaConnect</li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li onclick="go('contact')">About Us</li><li onclick="go('blog')">Blog</li><li onclick="go('contact')">Contact</li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li>Privacy Policy</li><li>Terms of Service</li><li>HIPAA Compliance</li></ul></div>
+  </footer>
+  <div class="footer-bottom"><p>© 2026 Zima Health. All rights reserved.</p><p>HIPAA-compliant · BAA available · BIPOC-owned</p></div>
+</div>
+
+<!-- ══ BLOG ══ -->
 <div class="page" id="page-blog">
   <section class="blog-hero">
     <div class="container">
@@ -1000,13 +1327,14 @@ footer{
   </div>
   <footer>
     <div class="footer-logo-wrap"><div class="nav-logo">Zima<span class="dot">.</span></div><div class="footer-tagline">The operating system for therapy practices.</div></div>
-    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li></ul></div>
+    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li><li onclick="go('connect')">ZimaConnect</li></ul></div>
     <div class="footer-col"><h4>Company</h4><ul><li onclick="go('contact')">About Us</li><li onclick="go('blog')">Blog</li><li onclick="go('contact')">Contact</li></ul></div>
     <div class="footer-col"><h4>Legal</h4><ul><li>Privacy Policy</li><li>Terms of Service</li><li>HIPAA Compliance</li></ul></div>
   </footer>
   <div class="footer-bottom"><p>© 2026 Zima Health. All rights reserved.</p><p>HIPAA-compliant · BAA available · BIPOC-owned</p></div>
 </div>
 
+<!-- ══ CONTACT (hidden page for CTA links) ══ -->
 <div class="page" id="page-contact">
   <section class="ops-hero" style="min-height:50vh;display:flex;flex-direction:column;justify-content:center;">
     <div class="eyebrow-cormorant a1">Get In Touch</div>
@@ -1022,7 +1350,7 @@ footer{
       <div style="font-family:var(--ff-franklin);font-weight:700;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green-mid);margin-bottom:28px;">Tell us about your practice</div>
       <div style="margin-bottom:18px;"><label style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-5);margin-bottom:7px;font-family:var(--ff-lexend);">Your Name</label><input style="width:100%;background:var(--surface);border:1px solid var(--green-hair);border-radius:var(--radius);color:var(--text-2);font-family:var(--ff-lexend);font-weight:300;font-size:13px;padding:11px 14px;outline:none;" type="text" placeholder="Dr. Jane Smith"></div>
       <div style="margin-bottom:18px;"><label style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-5);margin-bottom:7px;font-family:var(--ff-lexend);">Email</label><input style="width:100%;background:var(--surface);border:1px solid var(--green-hair);border-radius:var(--radius);color:var(--text-2);font-family:var(--ff-lexend);font-weight:300;font-size:13px;padding:11px 14px;outline:none;" type="email" placeholder="jane@smiththerapy.com"></div>
-      <div style="margin-bottom:18px;"><label style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-5);margin-bottom:7px;font-family:var(--ff-lexend);">I'm interested in</label><select style="width:100%;background:var(--surface);border:1px solid var(--green-hair);border-radius:var(--radius);color:var(--text-2);font-family:var(--ff-lexend);font-weight:300;font-size:13px;padding:11px 14px;outline:none;"><option>Zima Ops</option><option>Zima Labs project</option><option>Not sure yet</option></select></div>
+      <div style="margin-bottom:18px;"><label style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-5);margin-bottom:7px;font-family:var(--ff-lexend);">I'm interested in</label><select style="width:100%;background:var(--surface);border:1px solid var(--green-hair);border-radius:var(--radius);color:var(--text-2);font-family:var(--ff-lexend);font-weight:300;font-size:13px;padding:11px 14px;outline:none;"><option>Zima Ops + ZimaConnect</option><option>Zima Labs project</option><option>ZimaConnect only</option><option>Zima Ops only</option><option>Not sure yet</option></select></div>
       <div style="margin-bottom:24px;"><label style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-5);margin-bottom:7px;font-family:var(--ff-lexend);">Anything else we should know?</label><textarea style="width:100%;background:var(--surface);border:1px solid var(--green-hair);border-radius:var(--radius);color:var(--text-2);font-family:var(--ff-lexend);font-weight:300;font-size:13px;padding:11px 14px;outline:none;height:110px;resize:vertical;" placeholder="Current setup, biggest pain points, timeline..."></textarea></div>
       <span class="btn-primary">Send Message →</span>
     </div>
@@ -1033,14 +1361,14 @@ footer{
       <div style="margin-bottom:24px;"><div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-5);margin-bottom:5px;font-family:var(--ff-lexend);">Based In</div><div style="font-family:var(--ff-jost);font-weight:300;font-size:14px;color:var(--text-3);">Houston, TX — serving therapy practices nationwide</div></div>
       <div style="margin-top:36px;padding:24px;background:var(--raised);border:1px solid var(--elevated);border-radius:6px;">
         <div style="font-family:var(--ff-cormorant);font-weight:600;font-size:20px;color:var(--text-2);margin-bottom:8px;">Not sure where to start?</div>
-        <div style="font-family:var(--ff-jost);font-weight:300;font-size:13px;color:var(--text-4);line-height:1.65;">Most practices start with an operations audit. We'll help you figure out the right starting point — no pressure, no pitch.</div>
+        <div style="font-family:var(--ff-jost);font-weight:300;font-size:13px;color:var(--text-4);line-height:1.65;">Most practices start with ZimaConnect and add Zima Ops once they see what's possible. We'll help you figure out the right starting point — no pressure, no pitch.</div>
       </div>
     </div>
   </div>
 
   <footer>
     <div class="footer-logo-wrap"><div class="nav-logo">Zima<span class="dot">.</span></div><div class="footer-tagline">The operating system for therapy practices.</div></div>
-    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li></ul></div>
+    <div class="footer-col"><h4>Products</h4><ul><li onclick="go('ops')">Zima Ops</li><li onclick="go('labs')">Zima Labs</li><li onclick="go('connect')">ZimaConnect</li></ul></div>
     <div class="footer-col"><h4>Company</h4><ul><li onclick="go('contact')">About Us</li><li onclick="go('blog')">Blog</li><li onclick="go('contact')">Contact</li></ul></div>
     <div class="footer-col"><h4>Legal</h4><ul><li>Privacy Policy</li><li>Terms of Service</li><li>HIPAA Compliance</li></ul></div>
   </footer>
