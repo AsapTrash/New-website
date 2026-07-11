@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,700;0,900;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500;1,600&family=Lexend:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* 1. Bumped the overlays from 0.85 to 0.92 for better text contrast */
+  /* 1. Overlay alpha set to 0.32 across void/base/surface/elevated for depth */
   --void:    rgba(6, 10, 7, 0.32);
   --base:    rgba(8, 14, 9, 0.32);
   --surface: rgba(11, 26, 15, 0.32);
-  --raised:  rgba(11, 26, 15, 0.751); /* Kept this very subtle for depth */
+  --raised:  rgba(11, 26, 15, 0.751); /* Intentionally more opaque than the surfaces above, for card/panel emphasis */
   --elevated:rgba(21, 46, 30, 0.32);
 
   --green:      #5dcc88;
@@ -233,23 +233,6 @@ footer{
   max-width:500px;margin-bottom:36px;
 }
 .home-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
-.home-hero-right{flex-shrink:0;position:relative;z-index:1;}
-
-.product-stack{display:flex;flex-direction:column;gap:10px;width:240px;}
-.product-chip{
-  padding:18px 20px 18px 18px;
-  border:1px solid var(--elevated);border-radius:6px;
-  cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;
-  background:rgba(15,34,24,0.7);
-}
-.product-chip:hover{border-color:var(--green-mid);background:rgba(93,204,136,0.04);}
-.pc-eyebrow{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-5);margin-bottom:5px;font-family:var(--ff-lexend);}
-.pc-name-franklin{font-family:var(--ff-franklin);font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-2);margin-bottom:2px;}
-.pc-name-cormorant{font-family:var(--ff-cormorant);font-weight:600;font-size:17px;color:var(--text-2);margin-bottom:2px;line-height:1;}
-.pc-name-cormorant em{font-style:italic;color:var(--green-soft);}
-.pc-sub{font-size:11px;color:var(--text-4);font-family:var(--ff-lexend);font-weight:300;}
-.pc-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-5);font-size:12px;transition:color 0.2s;}
-.product-chip:hover .pc-arrow{color:var(--green);}
 
 .home-stats{
   display:grid;grid-template-columns:repeat(4,1fr);
@@ -479,65 +462,9 @@ footer{
   100%{transform:scale(1.6);}
 }
 
-.scroll-text-section{
-  width:100%;position:relative;
-  padding:60px 0;overflow:hidden;
-  background:var(--base);
-  border-top:1px solid var(--green-hair);
-  border-bottom:1px solid var(--green-hair);
-}
-.animated-text{
-  position:absolute;overflow:hidden;
-  width:100%;height:auto;
-  top:50%;left:0;transform:translateY(-50%);
-  white-space:nowrap;
-}
-.animated-text.fill-text{z-index:1;}
-.animated-text.outline-text{z-index:3;}
-.animated-text img{
-  height:11.05vw;width:auto;max-width:none;display:inline-block;
-}
-@media(max-width:600px){.animated-text img{height:12.5vw;}}
-.animated-text img.scroll-right{
-  animation:scrollRight 30s linear infinite;
-}
-.animated-text img.scroll-left{
-  margin-top:60px;
-  animation:scrollLeft 30s linear infinite;
-}
-@media(max-width:1200px){.animated-text img.scroll-left{margin-top:40px;}}
-@media(max-width:768px){.animated-text img.scroll-left{margin-top:30px;}}
-@media(max-width:600px){.animated-text img.scroll-left{margin-top:20px;}}
-@keyframes scrollRight{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-@keyframes scrollLeft{
-  from{transform:translateX(-50%);}
-  to{transform:translateX(0);}
-}
-.scroll-text-section .middle-img{
-  position:relative;width:34.11vw;
-  margin-left:auto;margin-right:auto;z-index:2;
-}
-@media(max-width:992px){.scroll-text-section .middle-img{width:40vw;}}
-@media(max-width:768px){.scroll-text-section .middle-img{width:50vw;}}
-@media(max-width:600px){.scroll-text-section .middle-img{width:55vw;}}
-.scroll-text-section .middle-img img{
-  width:100%;height:auto;
-  animation:zhRotate 10s infinite linear;
-}
-@keyframes zhRotate{
-  from{transform:rotate(0deg);}
-  to{transform:rotate(360deg);}
-}
-/* Tint the white SVGs to match Zima's dark green palette */
-.animated-text img{filter:invert(1) sepia(1) saturate(0.3) hue-rotate(100deg) brightness(0.25);}
-.scroll-text-section .middle-img img{filter:none;}
-
 /* ensure home-hero and ops-hero are position:relative */
 .home-hero,.ops-hero{position:relative;}
-.home-hero-left,.home-hero-right,
+.home-hero-left,
 .ops-hero .eyebrow-cormorant,
 .ops-hero h1,.ops-hero-sub,.home-actions{position:relative;z-index:1;}
 
@@ -547,10 +474,9 @@ footer{
   .nav-links{gap:2px;}
   .home-hero,.ops-hero,.labs-hero{padding:80px 24px 60px;}
   .home-hero{flex-direction:column;}
-  .home-hero-right{display:none;}
   .home-stats{grid-template-columns:repeat(2,1fr);}
   .home-brands,.home-brands-lower,.labs-approach{grid-template-columns:1fr;}
-  .svc-grid,.labs-grid,.cpc-grid,.opc-grid{grid-template-columns:1fr;}
+  .svc-grid,.labs-grid,.opc-grid{grid-template-columns:1fr;}
   .addons-grid{grid-template-columns:repeat(2,1fr);}
   .blog-grid{grid-template-columns:1fr;}
   footer{grid-template-columns:1fr 1fr;padding:40px 24px 0;}
@@ -1326,7 +1252,6 @@ footer{
   <div class="footer-bottom"><p>© 2026 Zima Health. All rights reserved.</p></div>
 </div>
 
-<script>
 <script>
 // ── LOADER JAVASCRIPT ──
 window.addEventListener('load', function() {
